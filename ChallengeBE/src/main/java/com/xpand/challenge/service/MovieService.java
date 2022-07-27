@@ -10,13 +10,13 @@ public interface MovieService {
     
     IdentifiableMovieDTO createMovie(MovieDTO movieDTO);
 
-    IdentifiableMovieDTO getMovie(Long id);
+    IdentifiableMovieDTO getMovie(Long id) throws Exception;
 
     List<IdentifiableMovieDTO> getMovies();
 
     List<IdentifiableMovieDTO> getMoviesByDate(LocalDate date);
 
-    void updateMovie(Long id, MovieDTO movieDTO);
+    void updateMovie(Long id, MovieDTO movieDTO)  throws Exception;
 
     void deleteMovie(Long id);
 }

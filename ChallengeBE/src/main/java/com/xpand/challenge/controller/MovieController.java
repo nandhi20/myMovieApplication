@@ -22,44 +22,50 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(path = "/movies", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MovieController {
 
-    private final MovieService movieService;
+	private final MovieService movieService;
 
-    public MovieController(MovieService movieService) {
-        this.movieService = movieService;
-    }
+	public MovieController(MovieService movieService) {
+		this.movieService = movieService;
+	}
 
-    @GetMapping
-    public ResponseEntity<?> getMovies() {
-        return ResponseEntity.ok().body(movieService.getMovies());
-    }
+	@GetMapping
+	public ResponseEntity<?> getMovies() {
+		return ResponseEntity.ok().body(movieService.getMovies());
+	}
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getMovie(@PathVariable Long id) {
-        return ResponseEntity.ok().body(movieService.getMovie(id));
-    }
+	@GetMapping("/{id}")
+	public ResponseEntity<?> getMovie(@PathVariable Long id) throws Exception {
+		return ResponseEntity.ok().body(movieService.getMovie(id));
+	}
 
-    @GetMapping
-    public ResponseEntity<?> getMoviesByDate(@RequestParam(required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        return ResponseEntity.ok().body(movieService.getMoviesByDate(date));
-    }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> createMovie(@RequestBody MovieDTO movieDTO) {
-        movieService.createMovie(movieDTO);
-        return ResponseEntity.ok().build();
-    }
+	@GetMapping("/actor")
+	public ResponseEntity<?> getMoviesByActor(
+			@RequestParam(name = "date", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+		return ResponseEntity.ok().body(movieService.getMoviesByDate(date));
+	}
+	
+	@GetMapping("/date")
+	public ResponseEntity<?> getMoviesByDate(
+			@RequestParam(name = "date", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+		return ResponseEntity.ok().body(movieService.getMoviesByDate(date));
+	}
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateMovie(@PathVariable Long id, @RequestBody MovieDTO movieDTO) {
-        movieService.updateMovie(id, movieDTO);
-        return ResponseEntity.noContent().build();
-    }
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<?> createMovie(@RequestBody MovieDTO movieDTO) {
+		movieService.createMovie(movieDTO);
+		return ResponseEntity.ok().build();
+	}
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteMovie(@PathVariable Long id) {
-        movieService.deleteMovie(id);
-        return ResponseEntity.noContent().build();
-    }
+	@PutMapping("/{id}")
+	public ResponseEntity<?> updateMovie(@PathVariable Long id, @RequestBody MovieDTO movieDTO) throws Exception {
+		movieService.updateMovie(id, movieDTO);
+		return ResponseEntity.noContent().build();
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteMovie(@PathVariable Long id) {
+		movieService.deleteMovie(id);
+		return ResponseEntity.noContent().build();
+	}
 }
-
-

@@ -33,8 +33,8 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
-    public IdentifiableMovieDTO getMovie(Long id) {
-        return movieRepository.findById(id).map(MovieDTOMapper::toMovieDTO).orElseThrow();
+    public IdentifiableMovieDTO getMovie(Long id) throws Exception {
+        return movieRepository.findById(id).map(MovieDTOMapper::toMovieDTO).orElseThrow(() -> new Exception("Movie not found - " + id));
     }
 
     @Override
@@ -48,8 +48,8 @@ public class DefaultMovieService implements MovieService {
     }
 
     @Override
-    public void updateMovie(Long id, MovieDTO movieDTO) {
-        movieRepository.findById(id).orElseThrow();
+    public void updateMovie(Long id, MovieDTO movieDTO) throws Exception {
+        movieRepository.findById(id).orElseThrow(() -> new Exception("Movie not found - " + id));
         movieValidator.validate(movieDTO);
         Movie movie = MovieDTOMapper.fromMovieDTO(movieDTO);
         movie.setId(id);
