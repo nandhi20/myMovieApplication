@@ -26,7 +26,7 @@ public class MovieValidatorTests {
     void doTestValidMovie() {
         MovieDTO dto = new MovieDTO();
         dto.setTitle("title");
-        dto.setRank(15f);
+        dto.setRank(5f);
         dto.setDate(LocalDate.now());
         assertDoesNotThrow(() -> validator.validate(dto));
         dto.setRevenue(new BigDecimal(100000));

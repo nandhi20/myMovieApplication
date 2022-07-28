@@ -1,9 +1,7 @@
 package com.xpand.challenge.controller;
 
 import java.time.LocalDate;
-
-import com.xpand.challenge.dto.MovieDTO;
-import com.xpand.challenge.service.MovieService;
+import java.util.Optional;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
@@ -18,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.xpand.challenge.dto.MovieDTO;
+import com.xpand.challenge.service.MovieService;
+
 @RestController
 @RequestMapping(path = "/movies", produces = MediaType.APPLICATION_JSON_VALUE)
 public class MovieController {
@@ -30,10 +31,10 @@ public class MovieController {
 
 	@GetMapping
 	public ResponseEntity<?> getMovies(
-			@RequestParam(name = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+			@RequestParam(name = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Optional<LocalDate> date) {
 
-		return null == date ? ResponseEntity.ok().body(movieService.getMovies())
-				: ResponseEntity.ok().body(movieService.getMoviesByDate(date));
+		return !date.isPresent() ? ResponseEntity.ok().body(movieService.getMovies())
+				: ResponseEntity.ok().body(movieService.getMoviesByDate(date.get()));
 	}
 
 	@GetMapping("/{id}")

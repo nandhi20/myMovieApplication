@@ -38,6 +38,18 @@ class ChallengeApplicationTests {
 	}
 
 	@Test
+	void doTestCreateMovie() {
+		MovieDTO dto = new MovieDTO();
+		dto.setTitle("New Movie");
+		dto.setRank(6f);
+		dto.setDate(LocalDate.now());
+		HttpEntity<MovieDTO> postRequest = new HttpEntity<>(dto);
+		ResponseEntity<?> postResponse = restTemplate.exchange("http://localhost:" + port + "/movies", HttpMethod.POST,
+				postRequest, Void.class);
+		assertEquals(HttpStatus.OK.value(), postResponse.getStatusCode().value());
+	}
+
+	@Test
 	void doTestGetMovie() {
 		ResponseEntity<IdentifiableMovieDTO> response = restTemplate
 				.getForEntity("http://localhost:" + port + "/movies/1", IdentifiableMovieDTO.class);
@@ -95,7 +107,7 @@ class ChallengeApplicationTests {
 		dto.setRank(15f);
 		dto.setDate(LocalDate.now());
 		HttpEntity<MovieDTO> putRequest = new HttpEntity<>(dto);
-		ResponseEntity<?> putResponse = restTemplate.exchange("http://localhost:" + port + "/movies/1", HttpMethod.PUT,
+		ResponseEntity<?> putResponse = restTemplate.exchange("http://localhost:" + port + "/movies/2", HttpMethod.PUT,
 				putRequest, Void.class);
 		assertEquals(HttpStatus.BAD_REQUEST.value(), putResponse.getStatusCode().value());
 	}

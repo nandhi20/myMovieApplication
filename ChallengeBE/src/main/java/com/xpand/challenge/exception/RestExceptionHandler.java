@@ -12,17 +12,22 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    Logger logger = LoggerFactory.getLogger(RestExceptionHandler.class);
+	Logger logger = LoggerFactory.getLogger(RestExceptionHandler.class);
 
-    @ExceptionHandler(NoSuchElementException.class)
-    public final ResponseEntity<?> handleNotFound() {
-        return ResponseEntity.notFound().build();
-    }
+	@ExceptionHandler(NoSuchElementException.class)
+	public final ResponseEntity<?> handleNotFound() {
+		return ResponseEntity.notFound().build();
+	}
 
-    @ExceptionHandler(Exception.class)
-    public final ResponseEntity<?> handleException(Exception e) {
-        logger.error(e.getMessage(), e);
-        return ResponseEntity.internalServerError().body(new RestExceptionResponse(e.getMessage()));
-    }
-    
+	@ExceptionHandler(IllegalArgumentException.class)
+	public final ResponseEntity<?> handleBadRequest() {
+		return ResponseEntity.badRequest().build();
+	}
+
+	@ExceptionHandler(Exception.class)
+	public final ResponseEntity<?> handleException(Exception e) {
+		logger.error(e.getMessage(), e);
+		return ResponseEntity.internalServerError().body(new RestExceptionResponse(e.getMessage()));
+	}
+
 }

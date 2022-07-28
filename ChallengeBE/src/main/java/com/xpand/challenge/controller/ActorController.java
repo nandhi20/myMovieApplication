@@ -1,5 +1,7 @@
 package com.xpand.challenge.controller;
 
+import java.util.Optional;
+
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,9 +28,9 @@ public class ActorController {
 	}
 
 	@GetMapping
-	public ResponseEntity<?> getActors(@RequestParam(name = "movieId", required = false) Long movieId) {
-		return null == movieId ? ResponseEntity.ok().body(actorService.getActors())
-				: ResponseEntity.ok().body(actorService.getActorsByMovie(movieId));
+	public ResponseEntity<?> getActors(@RequestParam(name = "movieId", required = false) Optional<Long> movieId) {
+		return !movieId.isPresent() ? ResponseEntity.ok().body(actorService.getActors())
+				: ResponseEntity.ok().body(actorService.getActorsByMovie(movieId.get()));
 	}
 
 	@GetMapping("/{id}")
