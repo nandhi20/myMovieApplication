@@ -29,19 +29,16 @@ public class MovieController {
 	}
 
 	@GetMapping
-	public ResponseEntity<?> getMovies() {
-		return ResponseEntity.ok().body(movieService.getMovies());
+	public ResponseEntity<?> getMovies(
+			@RequestParam(name = "date", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+
+		return null == date ? ResponseEntity.ok().body(movieService.getMovies())
+				: ResponseEntity.ok().body(movieService.getMoviesByDate(date));
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getMovie(@PathVariable Long id) throws Exception {
+	public ResponseEntity<?> getMovie(@PathVariable Long id) {
 		return ResponseEntity.ok().body(movieService.getMovie(id));
-	}
-	
-	@GetMapping("/date")
-	public ResponseEntity<?> getMoviesByDate(
-			@RequestParam(name = "date", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-		return ResponseEntity.ok().body(movieService.getMoviesByDate(date));
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -51,7 +48,7 @@ public class MovieController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateMovie(@PathVariable Long id, @RequestBody MovieDTO movieDTO) throws Exception {
+	public ResponseEntity<?> updateMovie(@PathVariable Long id, @RequestBody MovieDTO movieDTO) {
 		movieService.updateMovie(id, movieDTO);
 		return ResponseEntity.noContent().build();
 	}

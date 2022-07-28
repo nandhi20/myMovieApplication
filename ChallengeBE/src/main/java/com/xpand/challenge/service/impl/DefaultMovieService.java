@@ -2,6 +2,7 @@ package com.xpand.challenge.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import com.xpand.challenge.dto.IdentifiableMovieDTO;
@@ -33,9 +34,9 @@ public class DefaultMovieService implements MovieService {
 	}
 
 	@Override
-	public IdentifiableMovieDTO getMovie(Long id) throws Exception {
+	public IdentifiableMovieDTO getMovie(Long id) {
 		return movieRepository.findById(id).map(MovieDTOMapper::toMovieDTO)
-				.orElseThrow(() -> new Exception("Movie not found - " + id));
+				.orElseThrow(() -> new NoSuchElementException("Movie not found - " + id));
 	}
 
 	@Override
@@ -50,8 +51,8 @@ public class DefaultMovieService implements MovieService {
 	}
 
 	@Override
-	public void updateMovie(Long id, MovieDTO movieDTO) throws Exception {
-		movieRepository.findById(id).orElseThrow(() -> new Exception("Movie not found - " + id));
+	public void updateMovie(Long id, MovieDTO movieDTO) {
+		movieRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Movie not found - " + id));
 		movieValidator.validate(movieDTO);
 		Movie movie = MovieDTOMapper.fromMovieDTO(movieDTO);
 		movie.setId(id);
@@ -67,7 +68,5 @@ public class DefaultMovieService implements MovieService {
 	public Movie getMovieById(Long id) {
 		return movieRepository.findById(id).orElse(null);
 	}
-	
-	
 
 }

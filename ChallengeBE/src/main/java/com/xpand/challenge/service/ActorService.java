@@ -11,11 +11,11 @@ public interface ActorService {
 
 	IdentifiableActorDTO createActor(ActorDTO actorDTO);
 
-	void updateActor(Long id, ActorDTO actorDTO) throws Exception;
+	void updateActor(Long id, ActorDTO actorDTO);
 
 	void deleteActor(Long id);
 
-	IdentifiableActorDTO getActor(Long id) throws Exception;
+	IdentifiableActorDTO getActor(Long id);
 
 	List<IdentifiableActorDTO> getActorsByMovie(Long id);
 }

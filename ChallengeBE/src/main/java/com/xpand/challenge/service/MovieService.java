@@ -8,18 +8,18 @@ import com.xpand.challenge.dto.MovieDTO;
 import com.xpand.challenge.model.Movie;
 
 public interface MovieService {
-    
-    IdentifiableMovieDTO createMovie(MovieDTO movieDTO);
 
-    IdentifiableMovieDTO getMovie(Long id) throws Exception;
+	IdentifiableMovieDTO createMovie(MovieDTO movieDTO);
 
-    List<IdentifiableMovieDTO> getMovies();
+	IdentifiableMovieDTO getMovie(Long id);
 
-    List<IdentifiableMovieDTO> getMoviesByDate(LocalDate date);
-    
-    Movie getMovieById(Long id);
+	List<IdentifiableMovieDTO> getMovies();
 
-    void updateMovie(Long id, MovieDTO movieDTO)  throws Exception;
+	List<IdentifiableMovieDTO> getMoviesByDate(LocalDate date);
 
-    void deleteMovie(Long id);
+	Movie getMovieById(Long id);
+
+	void updateMovie(Long id, MovieDTO movieDTO);
+
+	void deleteMovie(Long id);
 }

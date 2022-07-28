@@ -1,6 +1,5 @@
 package com.xpand.challenge.controller;
 
-import org.springframework.context.annotation.Description;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,20 +26,14 @@ public class ActorController {
 	}
 
 	@GetMapping
-	@Description("API to get all actors")
-	public ResponseEntity<?> getActors() {
-		return ResponseEntity.ok().body(actorService.getActors());
+	public ResponseEntity<?> getActors(@RequestParam(name = "movieId", required = false) Long movieId) {
+		return null == movieId ? ResponseEntity.ok().body(actorService.getActors())
+				: ResponseEntity.ok().body(actorService.getActorsByMovie(movieId));
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getActor(@PathVariable Long id) throws Exception {
+	public ResponseEntity<?> getActor(@PathVariable Long id) {
 		return ResponseEntity.ok().body(actorService.getActor(id));
-	}
-	
-	@GetMapping("/movie_id/")
-	public ResponseEntity<?> getActorsByMovie(
-			@RequestParam(name = "movieId", required = true) Long movieId) throws Exception {
-		return ResponseEntity.ok().body(actorService.getActorsByMovie(movieId));
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -50,7 +43,7 @@ public class ActorController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateActor(@PathVariable Long id, @RequestBody ActorDTO actorDTO) throws Exception {
+	public ResponseEntity<?> updateActor(@PathVariable Long id, @RequestBody ActorDTO actorDTO) {
 		actorService.updateActor(id, actorDTO);
 		return ResponseEntity.noContent().build();
 	}
