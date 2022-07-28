@@ -19,3 +19,20 @@ INSERT INTO MOVIE (title, date, rank, revenue) VALUES ('Spider-Man: No Way Home'
 INSERT INTO MOVIE (title, date, rank, revenue) VALUES ('Game of Thrones', '2011-11-18', 9.2, 12500000);
 INSERT INTO MOVIE (title, date, rank, revenue) VALUES ('Almost Genius', '2015-12-30', 1.8, 80000);
 INSERT INTO MOVIE (title, date, rank, revenue) VALUES ('Deep Water 2', '2022-03-18', 4.4, 980000);
+
+CREATE TABLE ACTOR
+(
+  id IDENTITY NOT NULL,
+  actor_name VARCHAR2(100) NOT NULL,
+  birth_date DATE NOT NULL,
+  gender enum('MALE','FEMALE') NOT NULL,
+  movie_id INT NOT NULL,
+  CONSTRAINT FK_actor_movie FOREIGN KEY (movie_id) REFERENCES MOVIE (id)  
+);
+
+INSERT INTO ACTOR (actor_name, birth_date, gender, movie_id) VALUES('Joaquin Phoenix', '1974-10-28', 'MALE', 5);
+INSERT INTO ACTOR (actor_name, birth_date, gender, movie_id) VALUES('Robert De Niro', '1943-08-17', 'MALE', 5);
+INSERT INTO ACTOR (actor_name, birth_date, gender, movie_id) VALUES('Zazie Beetz', '1991-05-25', 'FEMALE', 5);
+INSERT INTO ACTOR (actor_name, birth_date, gender, movie_id) VALUES('Morgan Freeman', '1937-06-01', 'MALE', 2);
+INSERT INTO ACTOR (actor_name, birth_date, gender, movie_id) VALUES('Tim Robbins', '1958-10-16', 'MALE', 2);
+INSERT INTO ACTOR (actor_name, birth_date, gender, movie_id) VALUES('Bob Gunton', '1945-11-15', 'MALE', 2);

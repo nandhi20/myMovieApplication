@@ -17,48 +17,57 @@ import org.springframework.stereotype.Service;
 @Service
 public class DefaultMovieService implements MovieService {
 
-    private final MovieRepository movieRepository;
-    private final Validator<MovieDTO> movieValidator;
+	private final MovieRepository movieRepository;
+	private final Validator<MovieDTO> movieValidator;
 
-    public DefaultMovieService(MovieRepository movieRepository, Validator<MovieDTO> movieValidator) {
-        this.movieRepository = movieRepository;
-        this.movieValidator = movieValidator;
-    }
+	public DefaultMovieService(MovieRepository movieRepository, Validator<MovieDTO> movieValidator) {
+		this.movieRepository = movieRepository;
+		this.movieValidator = movieValidator;
+	}
 
-    @Override
-    public IdentifiableMovieDTO createMovie(MovieDTO movieDTO) {
-        movieValidator.validate(movieDTO);
-        Movie movie = MovieDTOMapper.fromMovieDTO(movieDTO);
-        return MovieDTOMapper.toMovieDTO(movieRepository.save(movie));
-    }
+	@Override
+	public IdentifiableMovieDTO createMovie(MovieDTO movieDTO) {
+		movieValidator.validate(movieDTO);
+		Movie movie = MovieDTOMapper.fromMovieDTO(movieDTO);
+		return MovieDTOMapper.toMovieDTO(movieRepository.save(movie));
+	}
 
-    @Override
-    public IdentifiableMovieDTO getMovie(Long id) throws Exception {
-        return movieRepository.findById(id).map(MovieDTOMapper::toMovieDTO).orElseThrow(() -> new Exception("Movie not found - " + id));
-    }
+	@Override
+	public IdentifiableMovieDTO getMovie(Long id) throws Exception {
+		return movieRepository.findById(id).map(MovieDTOMapper::toMovieDTO)
+				.orElseThrow(() -> new Exception("Movie not found - " + id));
+	}
 
-    @Override
-    public List<IdentifiableMovieDTO> getMovies() {
-        return movieRepository.findAll().stream().map(MovieDTOMapper::toMovieDTO).collect(Collectors.toList());
-    }
+	@Override
+	public List<IdentifiableMovieDTO> getMovies() {
+		return movieRepository.findAll().stream().map(MovieDTOMapper::toMovieDTO).collect(Collectors.toList());
+	}
 
-    @Override
-    public List<IdentifiableMovieDTO> getMoviesByDate(LocalDate date) {
-        return movieRepository.findAll().stream().filter(movie -> movie.getDate().isEqual(date)).map(MovieDTOMapper::toMovieDTO).collect(Collectors.toList());
-    }
+	@Override
+	public List<IdentifiableMovieDTO> getMoviesByDate(LocalDate date) {
+		return movieRepository.findAll().stream().filter(movie -> movie.getDate().isEqual(date))
+				.map(MovieDTOMapper::toMovieDTO).collect(Collectors.toList());
+	}
 
-    @Override
-    public void updateMovie(Long id, MovieDTO movieDTO) throws Exception {
-        movieRepository.findById(id).orElseThrow(() -> new Exception("Movie not found - " + id));
-        movieValidator.validate(movieDTO);
-        Movie movie = MovieDTOMapper.fromMovieDTO(movieDTO);
-        movie.setId(id);
-        movieRepository.save(movie);
-    }
+	@Override
+	public void updateMovie(Long id, MovieDTO movieDTO) throws Exception {
+		movieRepository.findById(id).orElseThrow(() -> new Exception("Movie not found - " + id));
+		movieValidator.validate(movieDTO);
+		Movie movie = MovieDTOMapper.fromMovieDTO(movieDTO);
+		movie.setId(id);
+		movieRepository.save(movie);
+	}
 
-    @Override
-    public void deleteMovie(Long id) {
-        movieRepository.deleteById(id);
-    }
-    
+	@Override
+	public void deleteMovie(Long id) {
+		movieRepository.deleteById(id);
+	}
+
+	@Override
+	public Movie getMovieById(Long id) {
+		return movieRepository.findById(id).orElse(null);
+	}
+	
+	
+
 }

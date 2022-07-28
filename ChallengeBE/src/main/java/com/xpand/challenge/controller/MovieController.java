@@ -37,13 +37,6 @@ public class MovieController {
 	public ResponseEntity<?> getMovie(@PathVariable Long id) throws Exception {
 		return ResponseEntity.ok().body(movieService.getMovie(id));
 	}
-
-
-	@GetMapping("/actor")
-	public ResponseEntity<?> getMoviesByActor(
-			@RequestParam(name = "date", required = true) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-		return ResponseEntity.ok().body(movieService.getMoviesByDate(date));
-	}
 	
 	@GetMapping("/date")
 	public ResponseEntity<?> getMoviesByDate(
