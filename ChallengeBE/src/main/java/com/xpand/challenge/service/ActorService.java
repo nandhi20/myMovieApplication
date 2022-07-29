@@ -18,4 +18,9 @@ public interface ActorService {
 	IdentifiableActorDTO getActor(Long id);
 
 	List<IdentifiableActorDTO> getActorsByMovie(Long id);
+
+	List<IdentifiableActorDTO> getActorsByMovieAndPage(Long id, Integer pageOffset, Integer pageSize);
+
+	List<IdentifiableActorDTO> getActorsByPage(Integer pageOffset, Integer pageSize);
+
 }

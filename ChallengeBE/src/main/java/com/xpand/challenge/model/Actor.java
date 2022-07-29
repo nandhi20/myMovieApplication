@@ -24,11 +24,11 @@ public class Actor {
 	@Column(name = "id", updatable = false)
 	private Long id;
 
-	@Column(name = "actor_name", nullable = false)
-	private String actor_name;
+	@Column(name = "name", nullable = false)
+	private String name;
 
 	@Column(name = "birth_date", nullable = false)
-	private LocalDate birth_date;
+	private LocalDate birthDate;
 
 	@Column(name = "gender", nullable = false)
 	private Gender gender;
@@ -45,20 +45,20 @@ public class Actor {
 		this.id = id;
 	}
 
-	public String getActor_name() {
-		return actor_name;
+	public String getActorName() {
+		return name;
 	}
 
-	public void setActor_name(String actor_name) {
-		this.actor_name = actor_name;
+	public void setActorName(String actorName) {
+		this.name = actorName;
 	}
 
-	public LocalDate getBirth_date() {
-		return birth_date;
+	public LocalDate getBirthDate() {
+		return birthDate;
 	}
 
-	public void setBirth_date(LocalDate birth_date) {
-		this.birth_date = birth_date;
+	public void setBirthDate(LocalDate birthDate) {
+		this.birthDate = birthDate;
 	}
 
 	public Gender getGender() {

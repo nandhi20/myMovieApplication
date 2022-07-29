@@ -4,25 +4,22 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.xpand.challenge.dto.ActorDTO;
 import com.xpand.challenge.dto.ActorDTOMapper;
 import com.xpand.challenge.dto.IdentifiableActorDTO;
 import com.xpand.challenge.model.Actor;
-import com.xpand.challenge.model.Movie;
 import com.xpand.challenge.repository.ActorRepository;
 import com.xpand.challenge.service.ActorService;
-import com.xpand.challenge.service.MovieService;
 
 @Service
 public class ActorServiceImpl implements ActorService {
 
 	private final ActorRepository actorRepository;
-	private final MovieService movieService;
 
-	public ActorServiceImpl(ActorRepository actorRepository, MovieService movieService) {
-		this.movieService = movieService;
+	public ActorServiceImpl(ActorRepository actorRepository) {
 		this.actorRepository = actorRepository;
 	}
 
@@ -58,7 +55,19 @@ public class ActorServiceImpl implements ActorService {
 
 	@Override
 	public List<IdentifiableActorDTO> getActorsByMovie(Long id) {
-		Movie movie = movieService.getMovieById(id);
-		return actorRepository.findByMovie(movie).stream().map(ActorDTOMapper::toActorDTO).collect(Collectors.toList());
+		return actorRepository.findAllByMovie_Id(id).stream().map(ActorDTOMapper::toActorDTO)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<IdentifiableActorDTO> getActorsByPage(Integer pageOffset, Integer pageSize) {
+		return actorRepository.findAll(PageRequest.of(pageOffset, pageSize)).stream().map(ActorDTOMapper::toActorDTO)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	public List<IdentifiableActorDTO> getActorsByMovieAndPage(Long movieId, Integer pageOffset, Integer pageSize) {
+		return actorRepository.findAllByMovie_Id(movieId, PageRequest.of(pageOffset, pageSize)).stream()
+				.map(ActorDTOMapper::toActorDTO).collect(Collectors.toList());
 	}
 }

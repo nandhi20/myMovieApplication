@@ -22,4 +22,8 @@ public interface MovieService {
 	void updateMovie(Long id, MovieDTO movieDTO);
 
 	void deleteMovie(Long id);
+
+	List<IdentifiableMovieDTO> getMoviesByDateAndPage(LocalDate date, Integer pageOffset, Integer pageSize);
+
+	List<IdentifiableMovieDTO> getMoviesByPageing(Integer pageOffset, Integer pageSize);
 }

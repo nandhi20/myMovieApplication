@@ -13,6 +13,7 @@ import com.xpand.challenge.repository.MovieRepository;
 import com.xpand.challenge.service.MovieService;
 import com.xpand.challenge.validator.Validator;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -46,8 +47,8 @@ public class DefaultMovieService implements MovieService {
 
 	@Override
 	public List<IdentifiableMovieDTO> getMoviesByDate(LocalDate date) {
-		return movieRepository.findAll().stream().filter(movie -> movie.getDate().isEqual(date))
-				.map(MovieDTOMapper::toMovieDTO).collect(Collectors.toList());
+		return movieRepository.findAllByDate(date).stream().map(MovieDTOMapper::toMovieDTO)
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -67,6 +68,18 @@ public class DefaultMovieService implements MovieService {
 	@Override
 	public Movie getMovieById(Long id) {
 		return movieRepository.findById(id).orElse(null);
+	}
+
+	@Override
+	public List<IdentifiableMovieDTO> getMoviesByDateAndPage(LocalDate date, Integer pageOffset, Integer pageSize) {
+		return movieRepository.findAllByDate(date, PageRequest.of(pageOffset, pageSize)).stream()
+				.map(MovieDTOMapper::toMovieDTO).collect(Collectors.toList());
+	}
+
+	@Override
+	public List<IdentifiableMovieDTO> getMoviesByPageing(Integer pageOffset, Integer pageSize) {
+		return movieRepository.findAll(PageRequest.of(pageOffset, pageSize)).stream().map(MovieDTOMapper::toMovieDTO)
+				.collect(Collectors.toList());
 	}
 
 }
